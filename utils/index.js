@@ -38,7 +38,13 @@ const createAccount = async () => {
   const email = `${Math.random().toString(36).substring(7)}@${domain}`;
 
   // generate a random password
-  const password = Math.random().toString(36).substring(7);
+  const crypto = require('crypto');
+
+  function generateSecurePassword(length) {
+      return crypto.randomBytes(length).toString('base64').slice(0, length);
+  }
+  
+  const password = generateSecurePassword(36); // Adjust length as needed  
 
   try {
     const { data } = await axios.post("https://api.mail.tm/accounts", {
